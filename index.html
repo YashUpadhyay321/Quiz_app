@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Quiz App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="marvel-title">🦸‍♂️ Marvel Quiz</h1>
+        <div id="quizContainer" class="card p-4">
+            <h4 id="questionText"></h4>
+            <div id="optionsContainer" class="mt-3"></div>
+            <button class="btn btn-danger mt-3" onclick="nextQuestion()">Next ➡️</button>
+        </div>
+        <div id="resultContainer" class="card p-4 mt-3 d-none">
+            <h3>Your Score: <span id="scoreText"></span></h3>
+            <button class="btn btn-warning" onclick="restartQuiz()">Restart 🔄</button>
+        </div>
+    </div>
+
+
+    <script>
+       
+       const questions = [
+    {
+        question: "What is Captain America's shield made of?",
+        options: ["Adamantium", "Vibranium", "Titanium", "Uru Metal"],
+        answer: "Vibranium"
+    },
+    {
+        question: "Who is the villain in Avengers: Infinity War?",
+        options: ["Ultron", "Loki", "Thanos", "Red Skull"],
+        answer: "Thanos"
+    },
+    {
+        question: "What is the real name of Black Panther?",
+        options: ["T'Challa", "M'Baku", "Okoye", "Shuri"],
+        answer: "T'Challa"
+    },
+    {
+        question: "Which Infinity Stone is located on Vormir?",
+        options: ["Power Stone", "Soul Stone", "Mind Stone", "Reality Stone"],
+        answer: "Soul Stone"
+    },
+    {
+        question: "What is the name of Thor’s hammer?",
+        options: ["Stormbreaker", "Gungnir", "Mjolnir", "Jarnbjorn"],
+        answer: "Mjolnir"
+    },
+    {
+        question: "Who is the first Avenger?",
+        options: ["Iron Man", "Hulk", "Captain America", "Thor"],
+        answer: "Captain America"
+    },
+    {
+        question: "Who created Ultron?",
+        options: ["Tony Stark", "Bruce Banner", "Hank Pym", "Nick Fury"],
+        answer: "Tony Stark"
+    },
+    {
+        question: "What is Black Widow’s real name?",
+        options: ["Natasha Romanoff", "Yelena Belova", "Wanda Maximoff", "Sharon Carter"],
+        answer: "Natasha Romanoff"
+    },
+    {
+        question: "Which Marvel movie introduced Spider-Man to the MCU?",
+        options: ["Spider-Man: Homecoming", "Captain America: Civil War", "Avengers: Age of Ultron", "Doctor Strange"],
+        answer: "Captain America: Civil War"
+    },
+    {
+        question: "What planet is Thanos from?",
+        options: ["Xandar", "Titan", "Sakaar", "Asgard"],
+        answer: "Titan"
+    },
+    {
+        question: "What is Hawkeye's real name?",
+        options: ["Scott Lang", "Clint Barton", "Sam Wilson", "Bucky Barnes"],
+        answer: "Clint Barton"
+    },
+    {
+        question: "Who was the first Marvel superhero?",
+        options: ["Captain America", "Iron Man", "Namor", "Spider-Man"],
+        answer: "Namor"
+    },
+    {
+        question: "What is the name of Star-Lord's ship?",
+        options: ["The Milano", "The Benatar", "The Falcon", "The Nova"],
+        answer: "The Milano"
+    },
+    {
+        question: "Which Avenger can lift Thor's hammer in Endgame?",
+        options: ["Hulk", "Iron Man", "Captain America", "Doctor Strange"],
+        answer: "Captain America"
+    },
+    {
+        question: "Which character said, 'I am inevitable'?",
+        options: ["Iron Man", "Thanos", "Loki", "Doctor Strange"],
+        answer: "Thanos"
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const quizContainer = document.getElementById("quizContainer");
+    const questionText = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("optionsContainer");
+
+    questionText.textContent = questions[currentQuestionIndex].question;
+    optionsContainer.innerHTML = "";
+
+    questions[currentQuestionIndex].options.forEach(option => {
+        const button = document.createElement("button");
+        button.className = "btn btn-outline-light d-block w-100 my-2";
+        button.textContent = option;
+        button.onclick = () => checkAnswer(option);
+        optionsContainer.appendChild(button);
+    });
+}
+
+function checkAnswer(selectedOption) {
+    const correctAnswer = questions[currentQuestionIndex].answer;
+    if (selectedOption === correctAnswer) {
+        score++;
+    }
+    nextQuestion();
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById("quizContainer").classList.add("d-none");
+    document.getElementById("resultContainer").classList.remove("d-none");
+    document.getElementById("scoreText").textContent = `${score} / ${questions.length}`;
+}
+
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById("quizContainer").classList.remove("d-none");
+    document.getElementById("resultContainer").classList.add("d-none");
+    loadQuestion();
+}
+
+window.onload = loadQuestion;
+
+       </script>
+</body>
+</html>
